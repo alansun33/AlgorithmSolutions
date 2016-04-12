@@ -11,13 +11,25 @@ public class Solution {
         if(lists == null || lists.Count() == 0){
             return null;
         }
-        for(var i = 0; i < lists.Count() - 1; i++){
-            lists[i+1] = MergeLists(lists[i], lists[i+1]);
-        }
-        return lists[lists.Count()-1];
+        return MergeKLists(lists, 0, lists.Count()-1);
+        //for(var i = 0; i < lists.Count() - 1; i++){
+        //    lists[i+1] = MergeLists(lists[i], lists[i+1]);
+        //}
+        //return lists[lists.Count()-1];
     }
     
-    private ListNode MergeLists(ListNode l1, ListNode l2){
+    private ListNode MergeKLists(ListNode[] lists, int low, int high){
+        if(low == high){
+            return lists[low];
+        }
+        if(low + 1 == high){
+            return MergeTwoLists(lists[low], lists[high]);
+        }
+        int mid = low + (high - low)/2;
+        return MergeTwoLists(MergeKLists(lists, low, mid), MergeKLists(lists, mid+1, high));
+    }
+    
+    private ListNode MergeTwoLists(ListNode l1, ListNode l2){
         if(l1 == null){
             return l2;
         }
